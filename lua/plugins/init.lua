@@ -30,6 +30,9 @@ return {
     "tpope/vim-fugitive",
   },
   {
+    "tpope/vim-unimpaired",
+  },
+  {
     "github/copilot.vim",
     init = function()
       vim.g.copilot_workspace_folders = { '~/work' }

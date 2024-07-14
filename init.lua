@@ -197,16 +197,16 @@ if vim.fn.has("gui_macvim") == 1 and vim.fn.has("gui_running") == 1 then
   map('i', '<D-[>', '<Esc><<i', default_opts)
 
   -- Bubble single lines
-  map('n', '<D-Up>', '[e', default_opts)
-  map('n', '<D-Down>', ']e', default_opts)
-  map('n', '<D-k>', '[e', default_opts)
-  map('n', '<D-j>', ']e', default_opts)
+  map('n', '<D-Up>', '[e', { silent = true })
+  map('n', '<D-Down>', ']e', { silent = true })
+  map('n', '<D-k>', '[e', { silent = true })
+  map('n', '<D-j>', ']e', { silent = true })
 
   -- Bubble multiple lines
-  map('v', '<D-Up>', '[egv', default_opts)
-  map('v', '<D-Down>', ']egv', default_opts)
-  map('v', '<D-k>', '[egv', default_opts)
-  map('v', '<D-j>', ']egv', default_opts)
+  map('v', '<D-Up>', '[egv', { silent = true })
+  map('v', '<D-Down>', ']egv', { silent = true })
+  map('v', '<D-k>', '[egv', { silent = true })
+  map('v', '<D-j>', ']egv', { silent = true })
 
   -- Map Command-# to switch tabs
   for i = 0, 9 do
@@ -225,16 +225,16 @@ else
   map('i', '<A-[>', '<Esc><<i', default_opts)
 
   -- Bubble single lines
-  map('n', '<C-Up>', '[e', default_opts)
-  map('n', '<C-Down>', ']e', default_opts)
-  map('n', '<C-k>', '[e', default_opts)
-  map('n', '<C-j>', ']e', default_opts)
+  map('n', '<C-Up>', '[e', { silent = true })
+  map('n', '<C-Down>', ']e', { silent = true })
+  map('n', '<C-k>', '[e', { silent = true })
+  map('n', '<C-j>', ']e', { silent = true })
 
   -- Bubble multiple lines
-  map('v', '<C-Up>', '[egv', default_opts)
-  map('v', '<C-Down>', ']egv', default_opts)
-  map('v', '<C-k>', '[egv', default_opts)
-  map('v', '<C-j>', ']egv', default_opts)
+  map('v', '<C-Up>', '[egv', { silent = true })
+  map('v', '<C-Down>', ']egv', { silent = true })
+  map('v', '<C-k>', '[egv', { silent = true })
+  map('v', '<C-j>', ']egv', { silent = true })
 
   -- Make shift-insert work like in Xterm
   map('', '<S-Insert>', '<MiddleMouse>', default_opts)
