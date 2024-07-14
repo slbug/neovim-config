@@ -62,8 +62,6 @@ local function wildignore_from_gitignore()
   end
 end
 
--- vim.g.ruby_host_prog = "/usr/local/lib/ruby/gems/3.3.0/bin/neovim-ruby-host"
--- vim.g.ruby_host_prog = "rvm system do neovim-ruby-host"
 vim.g.ruby_host_prog = "~/.config/nvim/neovim-ruby-host-wrapper"
 
 -- Basic Setup
