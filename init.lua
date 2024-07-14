@@ -14,6 +14,8 @@ vim.opt.wildignore:append("*/spec/vcr_cassettes/*")
 -- Disable mouse support
 vim.opt.mouse = ""
 
+vim.opt.switchbuf = "useopen,usetab"
+
 local function wildignore_from_gitignore()
   -- Find the root directory of the git repository
   local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
