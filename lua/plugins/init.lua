@@ -49,6 +49,9 @@ return {
     "bronson/vim-trailing-whitespace",
   },
   {
+    "sbdchd/neoformat",
+  },
+  {
     "lewis6991/gitsigns.nvim",
      lazy = false,
      init = function()

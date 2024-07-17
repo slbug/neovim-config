@@ -64,8 +64,6 @@ local function wildignore_from_gitignore()
   end
 end
 
-vim.g.ruby_host_prog = "~/.config/nvim/neovim-ruby-host-wrapper"
-
 -- Basic Setup
 vim.opt.number = true              -- Show line numbers
 vim.opt.ruler = true               -- Show line and column number
@@ -283,3 +281,5 @@ vim.cmd([[
 ]])
 
 wildignore_from_gitignore()
+
+vim.g.ruby_host_prog = "~/.config/nvim/neovim-ruby-host-wrapper"
