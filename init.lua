@@ -67,7 +67,6 @@ end
 -- Basic Setup
 vim.opt.number = true              -- Show line numbers
 vim.opt.ruler = true               -- Show line and column number
-vim.cmd("syntax enable")           -- Turn on syntax highlighting
 
 -- Neovim disallow changing 'encoding' option after initialization
 if not vim.fn.has('nvim') then
@@ -114,17 +113,19 @@ vim.opt.wildignore:append{
 vim.opt.backupdir:append('~/.vim/_backup//')    -- Where to put backup files
 vim.opt.directory:append('~/.vim/_temp//')      -- Where to put swap files
 
--- Create an autocommand group for better management
-vim.api.nvim_create_augroup('RestoreCursorGroup', { clear = true })
+-- Create a group called 'RestoreCursor'
+local restore_cursor_group = vim.api.nvim_create_augroup('RestoreCursor', {})
 
--- Define the autocommand
+-- Define the autocmd within the group
 vim.api.nvim_create_autocmd('BufReadPost', {
-  group = 'RestoreCursorGroup',
+  group = restore_cursor_group,
   pattern = '*',
   callback = function()
-    -- Check the file type and line conditions
-    if vim.bo.filetype:match('^git') == nil and vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line('$') then
-      vim.cmd("normal! g`\"")
+    local line = vim.fn.line("'\"")
+    local last_line = vim.fn.line("$")
+    local filetype = vim.bo.filetype
+    if line >= 1 and line <= last_line and filetype ~= 'commit' and not vim.tbl_contains({'xxd', 'gitrebase'}, filetype) then
+      vim.cmd([[normal! g`"]])
     end
   end,
 })
@@ -258,27 +259,43 @@ vim.opt.colorcolumn = "120"
 vim.opt.mouse:remove("a")
 
 -- Define augroup for cleanup
-vim.cmd([[
-augroup cleanup
-  autocmd!
-  autocmd FileType c,cpp,java,php,ruby,markdown,yaml,javascript,haml,coffee,lua autocmd BufWritePre <buffer> %s/\s\+$//e
-  autocmd FileType c,cpp,java,php,ruby,markdown,yaml,javascript,haml,coffee,lua autocmd BufWritePre <buffer> retab
-augroup END
-]])
+local cleanup_group = vim.api.nvim_create_augroup('cleanup', {})
 
--- Define augroup for php settings
-vim.cmd([[
-augroup php
-  autocmd!
-  autocmd FileType php set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-  autocmd FileType lua set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-augroup END
-]])
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = cleanup_group,
+  pattern = {'*.c', '*.cpp', '*.java', '*.php', '*.ruby', '*.markdown', '*.yaml', '*.javascript', '*.haml', '*.coffee', '*.lua'},
+  command = [[%s/\s\+$//e]],
+})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = cleanup_group,
+  pattern = {'*.c', '*.cpp', '*.java', '*.php', '*.ruby', '*.markdown', '*.yaml', '*.javascript', '*.haml', '*.coffee', '*.lua'},
+  command = 'retab',
+})
+
+-- Define augroup for PHP settings
+local php_group = vim.api.nvim_create_augroup('php', {})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = php_group,
+  pattern = 'php',
+  command = 'set tabstop=4 shiftwidth=4 softtabstop=4 expandtab',
+})
+
+-- Define augroup for Lua settings
+local lua_group = vim.api.nvim_create_augroup('lua', {})
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = lua_group,
+  pattern = 'lua',
+  command = 'set tabstop=2 shiftwidth=2 softtabstop=2 expandtab',
+})
 
 -- Set syntax for specific file type
-vim.cmd([[
-  autocmd BufNewFile,BufRead *.jb set syntax=ruby
-]])
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+  pattern = '*.jb',
+  command = 'set syntax=ruby',
+})
 
 wildignore_from_gitignore()
 
