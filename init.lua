@@ -44,15 +44,13 @@ local function wildignore_from_gitignore()
   local igstring = ''
   for _, oline in ipairs(lines) do
     local line = oline:gsub('%s+', '')
-    if line:match('^#') or line == '' or line:match('^!') then
-      goto continue
+    if not(line:match('^#') or line == '' or line:match('^!')) then
+      if line:match('/$') then
+        igstring = igstring .. ',' .. line .. '*'
+      else
+        igstring = igstring .. ',' .. line
+      end
     end
-    if line:match('/$') then
-      igstring = igstring .. ',' .. line .. '*'
-    else
-      igstring = igstring .. ',' .. line
-    end
-    ::continue::
   end
 
   -- Set the wildignore option
