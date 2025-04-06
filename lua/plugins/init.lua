@@ -49,6 +49,9 @@ return {
     "bronson/vim-trailing-whitespace",
   },
   {
+    "sheerun/vim-polyglot",
+  },
+  {
     "sbdchd/neoformat",
     init = function()
       vim.g.neoformat_enabled_javascript = { "prettier" }
@@ -56,6 +59,7 @@ return {
       vim.g.neoformat_enabled_typescriptreact = { "prettier" }
       vim.g.neoformat_enabled_javascriptreact = { "prettier" }
       vim.g.neoformat_enabled_ruby = { "rubocop" }
+      vim.g.neoformat_enabled_elixir = { "mix_format" }
     end,
   },
   {
@@ -150,6 +154,7 @@ return {
         typescript = {"eslint"},
         typescriptreact = {"eslint"},
         javascriptreact = {"eslint"},
+        elixir = {"credo"},
       }
       g.ale_use_neovim_diagnostics_api = 1
       g.ale_linters_explicit = 1

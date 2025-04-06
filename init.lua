@@ -261,13 +261,13 @@ local cleanup_group = vim.api.nvim_create_augroup('cleanup', {})
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = cleanup_group,
-  pattern = {'*.c', '*.cpp', '*.java', '*.php', '*.rb', '*.markdown', '*.yaml', '*.js', '*.haml', '*.coffee', '*.lua'},
+  pattern = {'*.c', '*.cpp', '*.java', '*.php', '*.rb', '*.markdown', '*.yaml', '*.js', '*.haml', '*.coffee', '*.lua', '*.ex', '*.exs'},
   command = [[%s/\s\+$//e]],
 })
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = cleanup_group,
-  pattern = {'*.c', '*.cpp', '*.java', '*.php', '*.rb', '*.markdown', '*.yaml', '*.js', '*.haml', '*.coffee', '*.lua'},
+  pattern = {'*.c', '*.cpp', '*.java', '*.php', '*.rb', '*.markdown', '*.yaml', '*.js', '*.haml', '*.coffee', '*.lua', '*.ex', '*.exs'},
   command = 'retab',
 })
 
