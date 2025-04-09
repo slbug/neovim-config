@@ -51,15 +51,24 @@ return {
         opts = {
           keymap = {
             preset = "enter",
-            ["<S-Tab>"] = { "select_prev", "fallback" },
-            ["<Tab>"] = { "select_next", "fallback" },
+            ["<Tab>"] = {},
+            -- ["<S-Tab>"] = { "select_prev", "fallback" },
+            -- ["<Tab>"] = { "select_next", "fallback" },
+            ["<C-space>"] = { "show", "fallback" },
+          },
+          completion = {
+            list = {
+              selection = {
+                preselect = false
+              }
+            }
           },
           cmdline = { sources = { "cmdline" } },
           sources = {
             per_filetype = {
               codecompanion = { "codecompanion" },
             },
-            default = { "lsp", "path", "buffer", "codecompanion" },
+            default = { "lsp", "buffer", "snippets", "path", "omni", "codecompanion" },
           }
         }
       }
