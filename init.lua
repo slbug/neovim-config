@@ -132,6 +132,8 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 local map = vim.api.nvim_set_keymap
 local default_opts = { noremap = true, silent = true }
 
+map("n", "<leader>am", "<cmd>MCPHub<CR>", default_opts)
+
 -- Toggle paste mode
 map('n', '<F4>', ':set invpaste<CR>:set paste?<CR>', { silent = true })
 map('i', '<F4>', '<ESC>:set invpaste<CR>:set paste?<CR>', { silent = true })

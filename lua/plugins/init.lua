@@ -3,11 +3,155 @@ return {
     "rktjmp/lush.nvim",
   },
   {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    -- build = "npm install -g mcp-hub@latest",
+    build = "bundled_build.lua",
+    config = function()
+      require("mcphub").setup({
+        -- port = 5999,
+        config = vim.fn.expand("~/.config/nvim/nvim-mcp-servers.json"),
+        use_bundled_binary = true,
+        extensions = {
+          codecompanion = {
+            show_result_in_chat = true,
+            make_vars = true,
+            make_slash_commands = true,
+          }
+        }
+      })
+    end,
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function()
+          require("nvim-treesitter.configs").setup({
+            ensure_installed = { "javascript", "typescript", "elixir", "ruby" },
+            highlight = {
+              enable = true,
+              additional_vim_regex_highlighting = false,
+            },
+            indent = {
+              enable = true,
+            },
+          })
+        end,
+      },
+      { "nvim-lua/plenary.nvim" },
+      {
+        "saghen/blink.cmp",
+        lazy = false,
+        version = "*",
+        opts = {
+          keymap = {
+            preset = "enter",
+            ["<S-Tab>"] = { "select_prev", "fallback" },
+            ["<Tab>"] = { "select_next", "fallback" },
+          },
+          cmdline = { sources = { "cmdline" } },
+          sources = {
+            per_filetype = {
+              codecompanion = { "codecompanion" },
+            },
+            default = { "lsp", "path", "buffer", "codecompanion" },
+          }
+        }
+      }
+    },
+    opts = {
+      strategies = {
+        chat = {
+          adapter = "copilot",
+          tools = {
+            ["mcp"] = {
+              callback = function()
+                return require("mcphub.extensions.codecompanion")
+              end,
+              description = "Call tools and resources from the MCP Servers",
+              opts = {
+                requires_approval = true,
+              }
+            }
+          }
+        },
+        inline = { adapter = "copilot" },
+        agent = { adapter = "copilot" },
+      },
+      opts = {
+        log_level = "DEBUG",
+      }
+    },
+  },
+  {
+    "sainnhe/gruvbox-material",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.gruvbox_material_background = 'hard'
+      vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_transparent_background = 1
+      vim.cmd("colorscheme gruvbox-material")
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("kanagawa").setup({
+        transparent = true,
+        theme = "wave", -- alternatives: dragon, lotus
+      })
+--      vim.cmd("colorscheme kanagawa")
+    end,
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('nightfox').setup({
+        options = { transparent = true }
+      })
+--      vim.cmd("colorscheme terafox") -- or carbonfox
+    end,
+  },
+  {
+    "sainnhe/everforest",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.everforest_background = 'hard'
+      vim.g.everforest_enable_italic = true
+      vim.g.everforest_transparent_background = 1
+--      vim.cmd("colorscheme everforest")
+    end,
+  },
+  {
+    "mcchrish/zenbones.nvim",
+    lazy = false,
+    dependencies = {
+      "rktjmp/lush.nvim",
+    },
+    priority = 1000,
+    config = function()
+--      vim.cmd([[colorscheme zenburned]])
+--      vim.api.nvim_set_hl(0, "Normal", { bg = "black" })
+--      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    end,
+  },
+  {
     "ViViDboarder/wombat.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme wombat_lush]])
+--      vim.cmd([[colorscheme wombat_lush]])
     end,
     dependencies = {
       "rktjmp/lush.nvim",
