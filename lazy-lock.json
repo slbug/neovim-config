@@ -11,7 +11,7 @@
   "kanagawa.nvim": { "branch": "master", "commit": "cc3b68b08e6a0cb6e6bf9944932940091e49bb83" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "lush.nvim": { "branch": "main", "commit": "45a79ec4acb5af783a6a29673a999ce37f00497e" },
-  "mcphub.nvim": { "branch": "main", "commit": "d3184ed5d1e81cfaff37424657e59028d7f9da1c" },
+  "mcphub.nvim": { "branch": "main", "commit": "cea60d059f5041ac9b284c9a37bb7ad8c06a8d38" },
   "neoformat": { "branch": "master", "commit": "874dcd0995db340278c41860e0209bef29d6ef87" },
   "nerdtree": { "branch": "master", "commit": "9b465acb2745beb988eff3c1e4aa75f349738230" },
   "nightfox.nvim": { "branch": "main", "commit": "ba47d4b4c5ec308718641ba7402c143836f35aa9" },

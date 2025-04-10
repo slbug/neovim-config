@@ -1,22 +1,28 @@
 {
   "mcpServers": {
-    "fetch": {
-      "command": "uvx",
+    "time": {
       "args": [
-        "mcp-server-fetch",
-        "--ignore-robots-txt"
-      ]
+        "mcp-server-time",
+        "--local-timezone=Europe/Warsaw"
+      ],
+      "command": "uvx"
     },
     "package-version": {
-      "command": "npx",
       "args": [
         "-y",
         "mcp-package-version"
-      ]
+      ],
+      "command": "npx"
     },
-    "time": {
-      "command": "uvx",
-      "args": ["mcp-server-time", "--local-timezone=Europe/Warsaw"]
+    "fetch": {
+      "args": [
+        "mcp-server-fetch",
+        "--ignore-robots-txt"
+      ],
+      "command": "uvx"
     }
-  }
+  },
+  "nativeMCPServers": [
+
+  ]
 }
