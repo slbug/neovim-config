@@ -20,6 +20,10 @@
         "--ignore-robots-txt"
       ],
       "command": "uvx"
+    },
+    "kubernetes": {
+      "command": "npx",
+      "args": ["mcp-server-kubernetes"]
     }
   },
   "nativeMCPServers": [

@@ -13,6 +13,7 @@ return {
       require("mcphub").setup({
         -- port = 5999,
         config = vim.fn.expand("~/.config/nvim/nvim-mcp-servers.json"),
+        shutdown_delay = 0,
         use_bundled_binary = true,
         extensions = {
           codecompanion = {
@@ -39,6 +40,7 @@ return {
             },
             indent = {
               enable = true,
+              disable = { "javascript", "typescript", "elixir", "ruby" },
             },
           })
         end,
