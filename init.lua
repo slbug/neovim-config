@@ -299,4 +299,4 @@ vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
 
 wildignore_from_gitignore()
 
-vim.g.ruby_host_prog = "~/.config/nvim/neovim-ruby-host-wrapper"
+-- vim.g.ruby_host_prog = "~/.config/nvim/neovim-ruby-host-wrapper"

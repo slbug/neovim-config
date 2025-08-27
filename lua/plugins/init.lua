@@ -178,8 +178,12 @@ return {
   {
     "wincent/command-t",
     lazy = false,
-    -- build = "cd lua/wincent/commandt/lib && make",
-    build = "cd ruby/command-t/ext/command-t && make clean && /usr/local/opt/ruby/bin/ruby extconf.rb && make",
+    build = "cd lua/wincent/commandt/lib && make",
+    -- build = "cd ruby/command-t/ext/command-t && make clean && /usr/local/opt/ruby/bin/ruby extconf.rb && make",
+    config = function()
+        require('wincent.commandt').setup({
+        })
+    end,
     init = function()
       vim.g.CommandTPreferredImplementation = 'ruby'
       vim.api.nvim_set_keymap('n', '<C-p>', ':CommandT<CR>', { noremap = true, silent = true })
