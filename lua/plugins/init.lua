@@ -307,66 +307,33 @@ return {
      end,
   },
   {
-    "preservim/nerdtree",
-    init = function()
-      vim.g.NERDTreeHijackNetrw = 0
-    end,
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
     config = function()
-      vim.g.NERDTreeIgnore = {'\\.pyc$', '\\.pyo$', '\\.rbc$', '\\.rbo$', '\\.class$', '\\.o$', '\\~$'}
-      vim.api.nvim_set_keymap('n', '<leader>n', ':NERDTreeToggle<CR>:NERDTreeMirror<CR>', { noremap = true, silent = true })
-
-      local function CdIfDirectory(directory)
-        local explicitDirectory = vim.fn.isdirectory(directory) == 1
-        local isDirectory = explicitDirectory or directory == ""
-
-        if explicitDirectory then
-          vim.cmd("cd " .. vim.fn.fnameescape(directory))
-        end
-
-        if directory == "" then
-          return
-        end
-
-        if isDirectory then
-          vim.cmd("NERDTree")
-          vim.cmd("wincmd p")
-          vim.cmd("bd")
-        end
-
-        if explicitDirectory then
-          vim.cmd("wincmd p")
-        end
-      end
-
-      local function UpdateNERDTree(stay)
-        stay = stay or 0
-
-        if vim.t.NERDTreeBufName then
-          local nr = vim.fn.bufwinnr(vim.t.NERDTreeBufName)
-          if nr ~= -1 then
-            vim.cmd(nr .. "wincmd w")
-            local map_check = vim.fn.mapcheck("R")
-            local keymap = string.gsub(map_check, "<CR>", "")
-            vim.cmd(keymap)
-            if stay == 0 then
-              vim.cmd("wincmd p")
-            end
-          end
-        end
-      end
-
-      -- Create autocommands
-      vim.api.nvim_create_augroup("AuNERDTreeCmd", { clear = true })
-      vim.api.nvim_create_autocmd("VimEnter", {
-        group = "AuNERDTreeCmd",
-        pattern = "*",
-        callback = function() CdIfDirectory(vim.fn.expand("<amatch>")) end
+      require("neo-tree").setup({
+        filesystem = {
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
+        },
       })
-      vim.api.nvim_create_autocmd("FocusGained", {
-        group = "AuNERDTreeCmd",
-        pattern = "*",
-        callback = function() UpdateNERDTree() end
-      })
+      vim.keymap.set('n', '<leader>n', '<cmd>Neotree toggle<cr>')
+    end,
+  },
+  {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-neo-tree/neo-tree.nvim", -- makes sure that this loads after Neo-tree.
+    },
+    config = function()
+      require("lsp-file-operations").setup()
     end,
   },
   {
