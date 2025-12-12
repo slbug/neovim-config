@@ -291,10 +291,16 @@ vim.api.nvim_create_autocmd('FileType', {
   command = 'set tabstop=2 shiftwidth=2 softtabstop=2 expandtab',
 })
 
--- Set syntax for specific file type
+-- Set syntax for specific file types
 vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
   pattern = '*.jb',
   command = 'set syntax=ruby',
+})
+
+-- Fix Dockerfile detection
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+  pattern = {'Dockerfile*', '*.dockerfile'},
+  command = 'set filetype=dockerfile',
 })
 
 wildignore_from_gitignore()

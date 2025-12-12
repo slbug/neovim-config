@@ -1,0 +1,2 @@
+#!/bin/zsh
+$(rvm system do gem contents solargraph | grep bin/solargraph) "$@"

@@ -220,7 +220,7 @@ return {
     config = function()
       -- Use solargraph for Ruby (better Rails support)
       vim.lsp.config.solargraph = {
-        cmd = { "bundle", "exec", "solargraph", "stdio" },
+        cmd = { vim.fn.expand("~/.config/nvim/solargraph-wrapper"), "stdio" },
         filetypes = { "ruby" },
         settings = {
           solargraph = {
