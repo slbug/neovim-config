@@ -215,8 +215,66 @@ return {
     "bronson/vim-trailing-whitespace",
   },
   {
-    "sheerun/vim-polyglot",
+    "neovim/nvim-lspconfig",
+    config = function()
+      -- Use solargraph for Ruby (better Rails support)
+      vim.lsp.config.solargraph = {
+        cmd = { "bundle", "exec", "solargraph", "stdio" },
+        filetypes = { "ruby" },
+        settings = {
+          solargraph = {
+            diagnostics = true,
+            completion = true,
+          }
+        }
+      }
+      
+      vim.lsp.config.ts_ls = {
+        cmd = { "typescript-language-server", "--stdio" },
+        filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
+      }
+      
+      vim.lsp.config.elixirls = {
+        cmd = { "elixir-ls" },
+        filetypes = { "elixir", "eelixir" },
+      }
+
+      vim.lsp.config.rust_analyzer = {
+        cmd = { "rust-analyzer" },
+        filetypes = { "rust" },
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+            },
+          }
+        }
+      }
+
+      vim.lsp.config.pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        filetypes = { "python" },
+      }
+
+      -- Enable LSP servers
+      vim.lsp.enable('solargraph')
+      vim.lsp.enable('ts_ls')
+      vim.lsp.enable('elixirls')
+      vim.lsp.enable('rust_analyzer')
+      vim.lsp.enable('pyright')
+
+      -- LSP keymaps (only when LSP is attached)
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(event)
+          local opts = { buffer = event.buf }
+          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+          vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+        end,
+      })
+    end,
   },
+
   {
     "sbdchd/neoformat",
     init = function()
