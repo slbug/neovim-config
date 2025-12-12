@@ -277,14 +277,23 @@ return {
   },
 
   {
-    "sbdchd/neoformat",
-    init = function()
-      vim.g.neoformat_enabled_javascript = { "prettier" }
-      vim.g.neoformat_enabled_typescript = { "prettier" }
-      vim.g.neoformat_enabled_typescriptreact = { "prettier" }
-      vim.g.neoformat_enabled_javascriptreact = { "prettier" }
-      vim.g.neoformat_enabled_ruby = { "rubocop" }
-      vim.g.neoformat_enabled_elixir = { "mix_format" }
+    "stevearc/conform.nvim",
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          typescriptreact = { "prettier" },
+          javascriptreact = { "prettier" },
+          ruby = { "rubocop" },
+          elixir = { "mix" },
+        },
+      })
+      
+      -- Create :Format command (equivalent to :Neoformat)
+      vim.api.nvim_create_user_command("Format", function(args)
+        require("conform").format({ async = true, lsp_fallback = true })
+      end, {})
     end,
   },
   {
