@@ -355,9 +355,33 @@ return {
     end,
   },
   {
-    "vim-airline/vim-airline",
-    init = function()
-      vim.g['airline#extensions#ale#enabled'] = 1
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require('lualine').setup({
+        options = {
+          theme = 'gruvbox-material',
+          section_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' },
+        },
+        sections = {
+          lualine_a = {'mode'},
+          lualine_b = {'branch', 'diff'},
+          lualine_c = {'filename'},
+          lualine_x = {
+            {
+              'diagnostics',
+              sources = { 'ale', 'nvim_lsp' },
+              symbols = {error = ' ', warn = ' ', info = ' '},
+            },
+            'encoding',
+            'fileformat',
+            'filetype'
+          },
+          lualine_y = {'progress'},
+          lualine_z = {'location'}
+        },
+      })
     end,
   },
   {
