@@ -376,7 +376,12 @@ return {
         sections = {
           lualine_a = {'mode'},
           lualine_b = {'branch', 'diff'},
-          lualine_c = {'filename'},
+          lualine_c = {
+            {
+              'filename',
+              path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
+            }
+          },
           lualine_x = {
             {
               'diagnostics',
