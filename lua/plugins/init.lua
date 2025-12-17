@@ -177,20 +177,22 @@ return {
     },
   },
   {
-    "wincent/command-t",
-    lazy = false,
-    build = "cd lua/wincent/commandt/lib && make",
-    -- build = "cd ruby/command-t/ext/command-t && make clean && /usr/local/opt/ruby/bin/ruby extconf.rb && make",
-    config = function()
-        require('wincent.commandt').setup({
-        })
+    'dmtrKovalenko/fff.nvim',
+    build = function()
+      require("fff.download").download_or_build_binary()
     end,
+    opts = {
+      debug = {
+        enabled = true,
+        show_scores = true,
+      },
+    },
+    lazy = false,
     init = function()
-      vim.g.CommandTPreferredImplementation = 'ruby'
-      vim.api.nvim_set_keymap('n', '<C-p>', ':CommandT<CR>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>b', ':CommandTBuffer<CR>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>j', ':CommandTJump<CR>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>o', ':CommandTOpen<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<C-p>', ':FFFFind<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>b', ':FFFBuffers<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>j', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>o', ':FFFFind<CR>', { noremap = true, silent = true })
     end,
   },
   {
