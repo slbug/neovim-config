@@ -1,2 +1,2 @@
 #!/bin/zsh
-rvm system do neovim-ruby-host "$@"
+rvm default do neovim-ruby-host "$@"
