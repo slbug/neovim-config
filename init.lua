@@ -16,6 +16,9 @@ vim.opt.mouse = ""
 
 vim.opt.switchbuf = "useopen,usetab"
 
+-- SQL completion: use syntax mode instead of dbext
+vim.g.omni_sql_default_compl_type = 'syntax'
+
 local function wildignore_from_gitignore()
   -- Find the root directory of the git repository
   local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
