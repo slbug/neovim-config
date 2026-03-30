@@ -30,18 +30,33 @@ return {
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         build = ":TSUpdate",
+        lazy = false,
         config = function()
-          require("nvim-treesitter.configs").setup({
-            ensure_installed = { "javascript", "typescript", "elixir", "ruby" },
-            highlight = {
-              enable = true,
-              additional_vim_regex_highlighting = false,
-            },
-            indent = {
-              enable = true,
-              disable = { "javascript", "typescript", "elixir", "ruby" },
-            },
+          require("nvim-treesitter").install({
+            "javascript", "typescript", "elixir", "ruby", "markdown", "markdown_inline", "lua"
+          }):wait(300000)
+
+          vim.api.nvim_create_autocmd('FileType', {
+            pattern = '*',
+            callback = function(args)
+              local lang = vim.treesitter.language.get_lang(args.match)
+              if lang and vim.treesitter.query.get(lang, "highlights") then
+                vim.treesitter.start()
+              end
+            end,
+          })
+
+          vim.api.nvim_create_autocmd('FileType', {
+            pattern = '*',
+            callback = function(args)
+              local lang = vim.treesitter.language.get_lang(args.match)
+              local disabled = { javascript = true, typescript = true, elixir = true, ruby = true }
+              if lang and not disabled[args.match] then
+                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+              end
+            end,
           })
         end,
       },
@@ -231,12 +246,12 @@ return {
           }
         }
       }
-      
+
       vim.lsp.config.ts_ls = {
         cmd = { "typescript-language-server", "--stdio" },
         filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
       }
-      
+
       vim.lsp.config.elixirls = {
         cmd = { "elixir-ls" },
         filetypes = { "elixir", "eelixir" },
@@ -291,7 +306,7 @@ return {
           elixir = { "mix" },
         },
       })
-      
+
       -- Create :Format command (equivalent to :Neoformat)
       vim.api.nvim_create_user_command("Format", function(args)
         require("conform").format({ async = true, lsp_fallback = true })
