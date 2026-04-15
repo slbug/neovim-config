@@ -35,7 +35,7 @@ return {
         lazy = false,
         config = function()
           require("nvim-treesitter").install({
-            "javascript", "typescript", "elixir", "ruby", "markdown", "markdown_inline", "lua"
+            "javascript", "typescript", "elixir", "ruby", "markdown", "markdown_inline", "lua", "go", "gomod"
           }):wait(300000)
 
           vim.api.nvim_create_autocmd('FileType', {
@@ -252,10 +252,19 @@ return {
         filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact" },
       }
 
-      vim.lsp.config.elixirls = {
-        cmd = { "elixir-ls" },
-        filetypes = { "elixir", "eelixir" },
-      }
+      -- vim.lsp.config.elixirls = {
+      --   cmd = { "elixir-ls" },
+      --   filetypes = { "elixir", "eelixir" },
+      -- }
+
+      vim.lsp.config("expert", {
+        filetypes = { "elixir", "heex" },
+        settings = {
+          workspaceSymbols = {
+            minQueryLength = 0
+          }
+        }
+      })
 
       vim.lsp.config.rust_analyzer = {
         cmd = { "rust-analyzer" },
@@ -274,12 +283,52 @@ return {
         filetypes = { "python" },
       }
 
+      -- Go: gopls (completions, definitions, hover, diagnostics)
+      vim.lsp.config.gopls = {
+        cmd = { "gopls" },
+        filetypes = { "go", "gomod" },
+        root_markers = { "go.mod", ".git" },
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+              shadow = true,
+              nilness = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            staticcheck = true,
+            gofumpt = false,      -- let conform handle formatting
+            usePlaceholders = true,
+            completeUnimported = true,
+          },
+        },
+      }
+
+      -- Go: golangci-lint-langserver (inline lint diagnostics from .golangci.yml)
+      vim.lsp.config.golangci_lint_ls = {
+        cmd = { "golangci-lint-langserver" },
+        filetypes = { "go", "gomod" },
+        root_markers = { ".golangci.yml", ".golangci.yaml", "go.mod", ".git" },
+        init_options = {
+          command = {
+            "golangci-lint", "run",
+            "--output.json.path", "stdout",
+            "--show-stats=false",
+            "--issues-exit-code=1",
+          },
+        },
+      }
+
       -- Enable LSP servers
       vim.lsp.enable('solargraph')
       vim.lsp.enable('ts_ls')
-      vim.lsp.enable('elixirls')
+      -- vim.lsp.enable('elixirls')
       vim.lsp.enable('rust_analyzer')
       vim.lsp.enable('pyright')
+      vim.lsp.enable('expert')
+      vim.lsp.enable('gopls')
+      vim.lsp.enable('golangci_lint_ls')
 
       -- LSP keymaps (only when LSP is attached)
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -304,6 +353,7 @@ return {
           javascriptreact = { "prettier" },
           ruby = { "rubocop" },
           elixir = { "mix" },
+          go = { "goimports", "gofmt" },
         },
       })
 
@@ -373,6 +423,7 @@ return {
         typescriptreact = {"eslint"},
         javascriptreact = {"eslint"},
         elixir = {"credo"},
+        go = {},  -- handled by golangci-lint-langserver via LSP, not ALE
       }
       g.ale_use_neovim_diagnostics_api = 1
       g.ale_linters_explicit = 1
